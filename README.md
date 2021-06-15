@@ -24,6 +24,6 @@ formation web app help you to create your website and put your courses and episo
 
 you can click on the button on the sidebar and complete it and switch on other episode if you have many episodes .
 
-![Screenshot - Complete](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/Screenshot%20from%202021-06-15%2021-35-31.png)
+![Screenshot - Complete](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/4.png)
 
  the progress bar mean you are complete the course
