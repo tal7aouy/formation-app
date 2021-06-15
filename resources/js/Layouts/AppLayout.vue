@@ -31,13 +31,13 @@
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                   <i class="fas fa-home"></i>&nbsp; Dashboard
                                 </jet-nav-link>
                                 <jet-nav-link
                                     :href="route('courses.index')"
                                     :active="route().current('courses.index')"
                                 >
-                                    Courses
+                                   <i class="fas fa-clipboard-list"></i>&nbsp; Courses
                                 </jet-nav-link>
                             </div>
                         </div>
@@ -406,6 +406,12 @@
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </jet-responsive-nav-link> 
+                        <jet-responsive-nav-link
+                            :href="route('courses.index')"
+                            :active="route().current('courses.index')"
+                        >
+                            Courses
                         </jet-responsive-nav-link>
                     </div>
 

@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Home
+                Update {{ course.title }}
             </h2>
         </template>
 
@@ -341,7 +341,7 @@
                             "
                             type="submit"
                         >
-                            Create
+                            Update
                         </button>
                     </form>
                 </div>
@@ -353,7 +353,7 @@
 <script>
 // @ts-nocheck
 import AppLayout from "@/Layouts/AppLayout";
-import { reactive } from "vue";
+import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
 export default {
@@ -362,34 +362,27 @@ export default {
     },
     props: {
         errors: Object,
+        course: Object,
     },
-    setup() {
-        const form = reactive({
-            title: null,
-            description: null,
-            episodes: [
-                {
-                    title: null,
-                    description: null,
-                    video_url: null,
-                },
-            ],
-        });
-        function submit() {
-            Inertia.post("/courses", form);
-        }
-        function insert() {
-            form.episodes.push({
+    data() {
+        return {
+            form: this.course,
+        };
+    },
+    methods: {
+        submit() {
+            Inertia.patch(`/courses/${this.form.id}`, this.form);
+        },
+        insert() {
+            this.form.episodes.push({
                 title: null,
                 description: null,
                 video_url: null,
             });
-        }
-        function remove() {
-            form.episodes.pop();
-        }
-
-        return { submit, form, insert, remove };
+        },
+        remove() {
+            this.form.episodes.pop();
+        },
     },
 };
 </script>

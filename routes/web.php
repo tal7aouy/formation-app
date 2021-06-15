@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     })->name('dashboard');
 
     Route::resource('/courses',CourseController::class);
+    Route::post('/togglepro',[CourseController::class,'progress'])->name('course.toggle');
    
 
 });
