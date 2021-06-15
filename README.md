@@ -20,7 +20,7 @@ formation web app help you to create your website and put your courses and episo
 ![Screenshot - Create Formation with Episodes](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/1.png)
 ![Screenshot - All Formation](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/2.png)
 
-![Screenshot - complete and switch Episode](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/3.png)
+![Screenshot - complete and switch Episode](https://github.com/tal7aouy/formation-app/blob/main/public/screenshots/5.png)
 
 you can click on the button on the sidebar and complete it and switch on other episode if you have many episodes .
 
