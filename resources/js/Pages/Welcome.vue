@@ -1,186 +1,1271 @@
 <template>
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            <inertia-link v-if="$page.props.user" href="/dashboard" class="text-sm text-gray-700 underline">
-                Dashboard
-            </inertia-link>
+    <div>
+        <header class="bg-gray-800" x-data="{ isOpen: false }">
+            <nav
+                class="
+                    container
+                    px-6
+                    py-4
+                    mx-auto
+                    md:flex md:justify-between md:items-center
+                "
+            >
+                <div class="flex items-center justify-between">
+                    <a
+                        class="
+                            text-xl
+                            font-bold
+                            text-white
+                            transition-colors
+                            duration-300
+                            transform
+                            md:text-2xl
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Brand</a
+                    >
 
-            <template v-else>
-                <inertia-link :href="route('login')" class="text-sm text-gray-700 underline">
-                    Log in
-                </inertia-link>
+                    <!-- Mobile menu button -->
+                    <div @click="isOpen = !isOpen" class="flex md:hidden">
+                        <button
+                            type="button"
+                            class="
+                                text-gray-200
+                                hover:text-gray-400
+                                focus:outline-none focus:text-gray-400
+                            "
+                            aria-label="toggle menu"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                class="w-6 h-6 fill-current"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
 
-                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
-                    Register
-                </inertia-link>
-            </template>
-        </div>
+                <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+                <div
+                    :class="isOpen ? 'flex' : 'hidden'"
+                    class="
+                        flex-col
+                        mt-2
+                        space-y-4
+                        md:flex
+                        md:space-y-0
+                        md:flex-row
+                        md:items-center
+                        md:space-x-10
+                        md:mt-0
+                    "
+                >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Home</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Templates</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Price</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Help</a
+                    >
+                    <a
+                        class="
+                            px-4
+                            py-1
+                            text-sm
+                            font-medium
+                            text-center text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            border
+                            rounded
+                            hover:bg-indigo-400
+                        "
+                        href="#"
+                        >Get In Touch</a
+                    >
+                </div>
+            </nav>
 
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                    <g clip-path="url(#clip0)" fill="#EF3B2D">
-                        <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                    </g>
-                </svg>
-            </div>
+            <section
+                class="flex items-center justify-center"
+                style="height: 500px"
+            >
+                <div class="text-center">
+                    <p class="text-xl font-medium tracking-wider text-gray-300">
+                        Lorem ipsum dolor
+                    </p>
+                    <h2 class="mt-6 text-3xl font-bold text-white md:text-5xl">
+                        Lorem ipsum dolor sit amet, <br />
+                        consectetur adipiscing elit
+                    </h2>
 
-            <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                            <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>
-                        </div>
+                    <div class="flex justify-center mt-8">
+                        <a
+                            class="
+                                px-8
+                                py-2
+                                text-lg
+                                font-medium
+                                text-white
+                                transition-colors
+                                duration-300
+                                transform
+                                bg-indigo-600
+                                rounded
+                                hover:bg-indigo-500
+                            "
+                            href="#"
+                            >Get In Touch</a
+                        >
+                    </div>
+                </div>
+            </section>
+        </header>
 
-                        <div class="ml-12">
-                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
-                            </div>
-                        </div>
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="items-center md:flex md:space-x-6">
+                    <div class="md:w-1/2">
+                        <h3 class="text-2xl font-semibold text-gray-800">
+                            Lorem ipsum dolor sit <br />
+                            amet, consectetur
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-600">
+                            Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat cupidatat non proident, sunt
+                            in culpa qui officia deserunt mollit anim id est
+                            laborum.
+                        </p>
+                        <a href="#" class="block mt-8 text-indigo-700 underline"
+                            >Experienced team</a
+                        >
                     </div>
 
-                    <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
-                        </div>
-
-                        <div class="ml-12">
-                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                            <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel-news.com/" class="underline text-gray-900 dark:text-white">Laravel News</a></div>
-                        </div>
-
-                        <div class="ml-12">
-                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</div>
-                        </div>
-
-                        <div class="ml-12">
-                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
+                    <div class="mt-8 md:mt-0 md:w-1/2">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-md">
+                                <img
+                                    class="
+                                        object-cover object-center
+                                        w-full
+                                        rounded-md
+                                        shadow
+                                    "
+                                    style="height: 500px"
+                                    src="https://images.unsplash.com/photo-1618346136472-090de27fe8b4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=673&q=80"
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                <div class="text-center text-sm text-gray-500 sm:text-left">
-                    <div class="flex items-center">
-                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="items-center md:flex md:space-x-6">
+                    <div class="md:w-1/2">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-md">
+                                <img
+                                    class="
+                                        object-cover object-center
+                                        w-full
+                                        rounded-md
+                                        shadow
+                                    "
+                                    style="height: 500px"
+                                    src="https://images.unsplash.com/photo-1616874535244-73aea5daadb9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 md:mt-0 md:w-1/2">
+                        <h3 class="text-2xl font-semibold text-gray-800">
+                            Lorem ipsum dolor sit <br />
+                            amet, consectetur
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-600">
+                            Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat cupidatat non proident, sunt
+                            in culpa qui officia deserunt mollit anim id est
+                            laborum.
+                        </p>
+                        <a href="#" class="block mt-8 text-indigo-700 underline"
+                            >Experienced team</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Lorem ipsum dolor sit amet, <br />
+                    consectetur adipiscing
+                </h2>
+                <p class="max-w-lg mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+                <div class="grid gap-8 mt-10 md:mt-20 md:grid-cols-2">
+                    <div class="flex space-x-4">
+                        <svg
+                            class="w-6 h-6 text-gray-500"
+                            viewBox="0 0 50 50"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M47.6268 23.7062C48.2466 24.4484 48.2466 25.5277 47.6268 26.2699L44.4812 30.0372C43.803 30.8493 43.4742 31.8971 43.5669 32.9512L44.0044 37.9287C44.0912 38.9165 43.4411 39.8188 42.4765 40.0491L38.0619 41.1031C36.9808 41.3612 36.0559 42.0575 35.5089 43.025L33.2053 47.099C32.6961 47.9995 31.5844 48.3631 30.6415 47.9375L26.6498 46.1358C25.6003 45.6621 24.3976 45.6636 23.3493 46.14L19.3597 47.9531C18.4161 48.3819 17.3014 48.0189 16.7912 47.1168L14.4911 43.0489C13.9441 42.0814 13.0192 41.3851 11.9381 41.127L7.52286 40.0728C6.55849 39.8426 5.90838 38.9406 5.99496 37.9529L6.43346 32.9505C6.52583 31.8968 6.19706 30.8494 5.5191 30.0375L2.37029 26.2665C1.75138 25.5253 1.75043 24.4477 2.36803 23.7054L5.52362 19.9127C6.1988 19.1012 6.52582 18.0557 6.43339 17.0041L5.99624 12.0308C5.90922 11.0408 6.56225 10.1372 7.52946 9.90904L11.9298 8.87123C13.0153 8.61522 13.9446 7.91765 14.4935 6.94684L16.7947 2.87709C17.3039 1.97664 18.4156 1.61302 19.3585 2.03858L23.3544 3.8422C24.4007 4.31444 25.5993 4.31444 26.6456 3.8422L30.6415 2.03858C31.5844 1.61301 32.6961 1.97663 33.2053 2.87709L35.5089 6.95112C36.0559 7.9186 36.9808 8.61486 38.0619 8.87297L42.4765 9.92701C43.4411 10.1573 44.0912 11.0596 44.0044 12.0474L43.5669 17.0249C43.4742 18.079 43.803 19.1268 44.4812 19.939L47.6268 23.7062ZM25 37.9326C26.8075 37.9326 28.2727 36.4674 28.2727 34.6599V34.4275C28.2727 32.6201 26.8075 31.1548 25 31.1548C23.1925 31.1548 21.7273 32.6201 21.7273 34.4275V34.6599C21.7273 36.4674 23.1925 37.9326 25 37.9326ZM25 28.377C26.8075 28.377 28.2727 26.9117 28.2727 25.1042V15.3162C28.2727 13.5087 26.8075 12.0435 25 12.0435C23.1925 12.0435 21.7273 13.5087 21.7273 15.3162V25.1042C21.7273 26.9117 23.1925 28.377 25 28.377Z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            />
                         </svg>
 
-                        <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                            Shop
-                        </a>
+                        <div>
+                            <h4 class="text-xl font-medium text-gray-800">
+                                Design concept
+                            </h4>
+                            <p class="max-w-lg mt-4 text-gray-600">
+                                Vitae nulla nunc euismod vel nunc euismod
+                                velpretium tellus accumsan nulla nunc euismod ve
+                                semper.
+                            </p>
+                        </div>
+                    </div>
 
-                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    <div class="flex space-x-4">
+                        <svg
+                            class="w-6 h-6 text-gray-500"
+                            viewBox="0 0 50 50"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M1 25C1 11.8023 11.8023 1 25 1C38.1977 1 49 11.8023 49 25C49 38.1977 38.1977 49 25 49C11.8023 49 1 38.1977 1 25ZM33.36 35.3573C34.7228 36.1959 36.5074 35.771 37.346 34.4082C38.1913 33.0346 37.7522 31.2351 36.3692 30.4053L28.221 25.5164C27.6186 25.155 27.25 24.504 27.25 23.8014V14.375C27.25 12.7872 25.9628 11.5 24.375 11.5C22.7872 11.5 21.5 12.7872 21.5 14.375V25.8236C21.5 27.2127 22.2206 28.5023 23.4036 29.2302L33.36 35.3573Z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            />
                         </svg>
 
-                        <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                            Sponsor
-                        </a>
+                        <div>
+                            <h4 class="text-xl font-medium text-gray-800">
+                                Developing websites
+                            </h4>
+                            <p class="max-w-lg mt-4 text-gray-600">
+                                Vitae nulla euismod velpretium tellus accumsan
+                                nulla nunc euismod ve semper. Vitae nulla
+                                euismod velpretium tellus accumsan nulla nunc
+                                euismod ve semper. Vitae nulla euismod
+                                velpretium tellus accumsan nulla nunc euismod ve
+                                semper.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div
+                    class="
+                        px-8
+                        py-12
+                        bg-gray-800
+                        rounded-md
+                        md:px-20 md:flex md:items-center md:justify-between
+                    "
+                >
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white">
+                            Lorem ipsum dolor sit amet
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <a
+                        class="
+                            block
+                            px-8
+                            py-2
+                            mt-6
+                            text-lg
+                            font-medium
+                            text-center text-white
+                            transition-colors
+                            duration-300
+                            transform
+                            bg-indigo-600
+                            rounded
+                            md:mt-0
+                            hover:bg-indigo-500
+                        "
+                        href="#"
+                        >Get In Touch</a
+                    >
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="md:flex md:justify-between">
+                    <h2 class="text-3xl font-semibold text-gray-800">
+                        Lorem ipsum dolor sit amet, consectetur <br />
+                        adipiscing elit, sed do eiusmod
+                    </h2>
+                    <a
+                        href="#"
+                        class="block mt-6 text-indigo-700 underline md:mt-0"
+                        >Experienced team</a
+                    >
+                </div>
+
+                <div class="grid gap-8 mt-10 md:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto text-center">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Lorem ipsum dolor sit amet, <br />
+                    consectetur adipiscing
+                </h2>
+                <p class="max-w-lg mx-auto mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+
+                <img
+                    class="
+                        object-cover object-center
+                        w-full
+                        mt-16
+                        rounded-md
+                        shadow
+                        h-80
+                    "
+                    src="https://images.unsplash.com/photo-1600069226367-412873fb0637?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                />
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div
+                class="
+                    max-w-5xl
+                    px-6
+                    py-16
+                    mx-auto
+                    space-y-8
+                    md:flex md:items-center md:space-y-0
+                "
+            >
+                <div class="md:w-2/3">
+                    <div class="hidden md:flex md:items-center md:space-x-10">
+                        <img
+                            class="
+                                object-cover object-center
+                                rounded-md
+                                shadow
+                                w-72
+                                h-72
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <img
+                            class="
+                                object-cover object-center
+                                w-64
+                                rounded-md
+                                shadow
+                                h-96
+                            "
+                            src="https://images.unsplash.com/photo-1618506469810-282bef2b30b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                        />
+                    </div>
+                    <h2 class="text-3xl font-semibold text-gray-800 md:mt-6">
+                        Lorem ipsum dolor
+                    </h2>
+                    <p class="max-w-lg mt-4 text-gray-600">
+                        Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse illum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in
+                        culpa qui officia deserunt mollit anim id est laborum
+                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia
+                        deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+                <div class="md:w-1/3">
+                    <img
+                        class="
+                            object-cover object-center
+                            w-full
+                            rounded-md
+                            shadow
+                        "
+                        style="height: 700px"
+                        src="https://images.unsplash.com/photo-1593352216840-1aee13f45818?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto text-center">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Our Leadership
+                </h2>
+                <p class="max-w-lg mx-auto mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+
+                <div class="grid gap-8 mt-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t">
+            <div
+                class="
+                    container
+                    flex
+                    items-center
+                    justify-between
+                    px-6
+                    py-8
+                    mx-auto
+                "
+            >
+                <p class="text-gray-500">© 2019-2021 All Rights Reserved.</p>
+                <p class="font-medium text-gray-700">Terms of Service</p>
+            </div>
+        </footer>
+    </div>
+    <div>
+        <header class="bg-gray-800" x-data="{ isOpen: false }">
+            <nav
+                class="
+                    container
+                    px-6
+                    py-4
+                    mx-auto
+                    md:flex md:justify-between md:items-center
+                "
+            >
+                <div class="flex items-center justify-between">
+                    <a
+                        class="
+                            text-xl
+                            font-bold
+                            text-white
+                            transition-colors
+                            duration-300
+                            transform
+                            md:text-2xl
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Brand</a
+                    >
+
+                    <!-- Mobile menu button -->
+                    <div @click="isOpen = !isOpen" class="flex md:hidden">
+                        <button
+                            type="button"
+                            class="
+                                text-gray-200
+                                hover:text-gray-400
+                                focus:outline-none focus:text-gray-400
+                            "
+                            aria-label="toggle menu"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                class="w-6 h-6 fill-current"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                                ></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
+                <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+                <div
+                    :class="isOpen ? 'flex' : 'hidden'"
+                    class="
+                        flex-col
+                        mt-2
+                        space-y-4
+                        md:flex
+                        md:space-y-0
+                        md:flex-row
+                        md:items-center
+                        md:space-x-10
+                        md:mt-0
+                    "
+                >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Home</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Templates</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Price</a
+                    >
+                    <a
+                        class="
+                            text-sm
+                            font-medium
+                            text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            hover:text-indigo-400
+                        "
+                        href="#"
+                        >Help</a
+                    >
+                    <a
+                        class="
+                            px-4
+                            py-1
+                            text-sm
+                            font-medium
+                            text-center text-gray-200
+                            transition-colors
+                            duration-300
+                            transform
+                            border
+                            rounded
+                            hover:bg-indigo-400
+                        "
+                        href="#"
+                        >Get In Touch</a
+                    >
+                </div>
+            </nav>
+
+            <section
+                class="flex items-center justify-center"
+                style="height: 500px"
+            >
+                <div class="text-center">
+                    <p class="text-xl font-medium tracking-wider text-gray-300">
+                        Lorem ipsum dolor
+                    </p>
+                    <h2 class="mt-6 text-3xl font-bold text-white md:text-5xl">
+                        Lorem ipsum dolor sit amet, <br />
+                        consectetur adipiscing elit
+                    </h2>
+
+                    <div class="flex justify-center mt-8">
+                        <a
+                            class="
+                                px-8
+                                py-2
+                                text-lg
+                                font-medium
+                                text-white
+                                transition-colors
+                                duration-300
+                                transform
+                                bg-indigo-600
+                                rounded
+                                hover:bg-indigo-500
+                            "
+                            href="#"
+                            >Get In Touch</a
+                        >
+                    </div>
+                </div>
+            </section>
+        </header>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="items-center md:flex md:space-x-6">
+                    <div class="md:w-1/2">
+                        <h3 class="text-2xl font-semibold text-gray-800">
+                            Lorem ipsum dolor sit <br />
+                            amet, consectetur
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-600">
+                            Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat cupidatat non proident, sunt
+                            in culpa qui officia deserunt mollit anim id est
+                            laborum.
+                        </p>
+                        <a href="#" class="block mt-8 text-indigo-700 underline"
+                            >Experienced team</a
+                        >
+                    </div>
+
+                    <div class="mt-8 md:mt-0 md:w-1/2">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-md">
+                                <img
+                                    class="
+                                        object-cover object-center
+                                        w-full
+                                        rounded-md
+                                        shadow
+                                    "
+                                    style="height: 500px"
+                                    src="img/first.jpg"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="items-center md:flex md:space-x-6">
+                    <div class="md:w-1/2">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-md">
+                                <img
+                                    class="
+                                        object-cover object-center
+                                        w-full
+                                        rounded-md
+                                        shadow
+                                    "
+                                    style="height: 500px"
+                                    src="img/second.jpg"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 md:mt-0 md:w-1/2">
+                        <h3 class="text-2xl font-semibold text-gray-800">
+                            Lorem ipsum dolor sit <br />
+                            amet, consectetur
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-600">
+                            Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat cupidatat non proident, sunt
+                            in culpa qui officia deserunt mollit anim id est
+                            laborum.
+                        </p>
+                        <a href="#" class="block mt-8 text-indigo-700 underline"
+                            >Experienced team</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Lorem ipsum dolor sit amet, <br />
+                    consectetur adipiscing
+                </h2>
+                <p class="max-w-lg mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+                <div class="grid gap-8 mt-10 md:mt-20 md:grid-cols-2">
+                    <div class="flex space-x-4">
+                        <svg
+                            class="w-6 h-6 text-gray-500"
+                            viewBox="0 0 50 50"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M47.6268 23.7062C48.2466 24.4484 48.2466 25.5277 47.6268 26.2699L44.4812 30.0372C43.803 30.8493 43.4742 31.8971 43.5669 32.9512L44.0044 37.9287C44.0912 38.9165 43.4411 39.8188 42.4765 40.0491L38.0619 41.1031C36.9808 41.3612 36.0559 42.0575 35.5089 43.025L33.2053 47.099C32.6961 47.9995 31.5844 48.3631 30.6415 47.9375L26.6498 46.1358C25.6003 45.6621 24.3976 45.6636 23.3493 46.14L19.3597 47.9531C18.4161 48.3819 17.3014 48.0189 16.7912 47.1168L14.4911 43.0489C13.9441 42.0814 13.0192 41.3851 11.9381 41.127L7.52286 40.0728C6.55849 39.8426 5.90838 38.9406 5.99496 37.9529L6.43346 32.9505C6.52583 31.8968 6.19706 30.8494 5.5191 30.0375L2.37029 26.2665C1.75138 25.5253 1.75043 24.4477 2.36803 23.7054L5.52362 19.9127C6.1988 19.1012 6.52582 18.0557 6.43339 17.0041L5.99624 12.0308C5.90922 11.0408 6.56225 10.1372 7.52946 9.90904L11.9298 8.87123C13.0153 8.61522 13.9446 7.91765 14.4935 6.94684L16.7947 2.87709C17.3039 1.97664 18.4156 1.61302 19.3585 2.03858L23.3544 3.8422C24.4007 4.31444 25.5993 4.31444 26.6456 3.8422L30.6415 2.03858C31.5844 1.61301 32.6961 1.97663 33.2053 2.87709L35.5089 6.95112C36.0559 7.9186 36.9808 8.61486 38.0619 8.87297L42.4765 9.92701C43.4411 10.1573 44.0912 11.0596 44.0044 12.0474L43.5669 17.0249C43.4742 18.079 43.803 19.1268 44.4812 19.939L47.6268 23.7062ZM25 37.9326C26.8075 37.9326 28.2727 36.4674 28.2727 34.6599V34.4275C28.2727 32.6201 26.8075 31.1548 25 31.1548C23.1925 31.1548 21.7273 32.6201 21.7273 34.4275V34.6599C21.7273 36.4674 23.1925 37.9326 25 37.9326ZM25 28.377C26.8075 28.377 28.2727 26.9117 28.2727 25.1042V15.3162C28.2727 13.5087 26.8075 12.0435 25 12.0435C23.1925 12.0435 21.7273 13.5087 21.7273 15.3162V25.1042C21.7273 26.9117 23.1925 28.377 25 28.377Z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            />
+                        </svg>
+
+                        <div>
+                            <h4 class="text-xl font-medium text-gray-800">
+                                Design concept
+                            </h4>
+                            <p class="max-w-lg mt-4 text-gray-600">
+                                Vitae nulla nunc euismod vel nunc euismod
+                                velpretium tellus accumsan nulla nunc euismod ve
+                                semper.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <svg
+                            class="w-6 h-6 text-gray-500"
+                            viewBox="0 0 50 50"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M1 25C1 11.8023 11.8023 1 25 1C38.1977 1 49 11.8023 49 25C49 38.1977 38.1977 49 25 49C11.8023 49 1 38.1977 1 25ZM33.36 35.3573C34.7228 36.1959 36.5074 35.771 37.346 34.4082C38.1913 33.0346 37.7522 31.2351 36.3692 30.4053L28.221 25.5164C27.6186 25.155 27.25 24.504 27.25 23.8014V14.375C27.25 12.7872 25.9628 11.5 24.375 11.5C22.7872 11.5 21.5 12.7872 21.5 14.375V25.8236C21.5 27.2127 22.2206 28.5023 23.4036 29.2302L33.36 35.3573Z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            />
+                        </svg>
+
+                        <div>
+                            <h4 class="text-xl font-medium text-gray-800">
+                                Developing websites
+                            </h4>
+                            <p class="max-w-lg mt-4 text-gray-600">
+                                Vitae nulla euismod velpretium tellus accumsan
+                                nulla nunc euismod ve semper. Vitae nulla
+                                euismod velpretium tellus accumsan nulla nunc
+                                euismod ve semper. Vitae nulla euismod
+                                velpretium tellus accumsan nulla nunc euismod ve
+                                semper.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div
+                    class="
+                        px-8
+                        py-12
+                        bg-gray-800
+                        rounded-md
+                        md:px-20 md:flex md:items-center md:justify-between
+                    "
+                >
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white">
+                            Lorem ipsum dolor sit amet
+                        </h3>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <a
+                        class="
+                            block
+                            px-8
+                            py-2
+                            mt-6
+                            text-lg
+                            font-medium
+                            text-center text-white
+                            transition-colors
+                            duration-300
+                            transform
+                            bg-indigo-600
+                            rounded
+                            md:mt-0
+                            hover:bg-indigo-500
+                        "
+                        href="#"
+                        >Get In Touch</a
+                    >
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto">
+                <div class="md:flex md:justify-between">
+                    <h2 class="text-3xl font-semibold text-gray-800">
+                        Lorem ipsum dolor sit amet, consectetur <br />
+                        adipiscing elit, sed do eiusmod
+                    </h2>
+                    <a
+                        href="#"
+                        class="block mt-6 text-indigo-700 underline md:mt-0"
+                        >Experienced team</a
+                    >
+                </div>
+
+                <div class="grid gap-8 mt-10 md:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            px-6
+                            py-8
+                            overflow-hidden
+                            bg-white
+                            rounded-md
+                            shadow-md
+                        "
+                    >
+                        <h2 class="text-xl font-medium text-gray-800">Audio</h2>
+                        <p class="max-w-md mt-4 text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            Ac aliquam ac volutpat, viverra magna risus aliquam
+                            massa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto text-center">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Lorem ipsum dolor sit amet, <br />
+                    consectetur adipiscing
+                </h2>
+                <p class="max-w-lg mx-auto mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+
+                <img
+                    class="
+                        object-cover object-center
+                        w-full
+                        mt-16
+                        rounded-md
+                        shadow
+                        h-80
+                    "
+                    src="img/third.jpg"
+                />
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div
+                class="
+                    max-w-5xl
+                    px-6
+                    py-16
+                    mx-auto
+                    space-y-8
+                    md:flex md:items-center md:space-y-0
+                "
+            >
+                <div class="md:w-2/3">
+                    <div class="hidden md:flex md:items-center md:space-x-10">
+                        <img
+                            class="
+                                object-cover object-center
+                                rounded-md
+                                shadow
+                                w-72
+                                h-72
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <img
+                            class="
+                                object-cover object-center
+                                w-64
+                                rounded-md
+                                shadow
+                                h-96
+                            "
+                            src="https://images.unsplash.com/photo-1618506469810-282bef2b30b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                        />
+                    </div>
+                    <h2 class="text-3xl font-semibold text-gray-800 md:mt-6">
+                        Lorem ipsum dolor
+                    </h2>
+                    <p class="max-w-lg mt-4 text-gray-600">
+                        Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse illum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in
+                        culpa qui officia deserunt mollit anim id est laborum
+                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia
+                        deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+                <div class="md:w-1/3">
+                    <img
+                        class="
+                            object-cover object-center
+                            w-full
+                            rounded-md
+                            shadow
+                        "
+                        style="height: 700px"
+                        src="https://images.unsplash.com/photo-1593352216840-1aee13f45818?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="max-w-5xl px-6 py-16 mx-auto text-center">
+                <h2 class="text-3xl font-semibold text-gray-800">
+                    Our Leadership
+                </h2>
+                <p class="max-w-lg mx-auto mt-4 text-gray-600">
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+
+                <div class="grid gap-8 mt-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+
+                    <div>
+                        <img
+                            class="
+                                object-cover object-center
+                                w-full
+                                h-64
+                                rounded-md
+                                shadow
+                            "
+                            src="https://images.unsplash.com/photo-1614030126544-b79b92e29e98?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        />
+                        <h3 class="mt-2 font-medium text-gray-700">John Doe</h3>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t">
+            <div
+                class="
+                    container
+                    flex
+                    items-center
+                    justify-between
+                    px-6
+                    py-8
+                    mx-auto
+                "
+            >
+                <p class="text-gray-500">
+                    © 2019-{{ date }} All Rights Reserved. Created By
+                    <a
+                        class="text-blue-500 font-medium"
+                        href="mailto:talhaouycoding@gmail.com"
+                        >Mhammed Talhouy</a
+                    >
+                </p>
+                <p class="font-medium text-gray-700">Terms of Service</p>
+            </div>
+        </footer>
     </div>
 </template>
 
-<style scoped>
-    .bg-gray-100 {
-        background-color: #f7fafc;
-        background-color: rgba(247, 250, 252, var(--tw-bg-opacity));
-    }
-
-    .border-gray-200 {
-        border-color: #edf2f7;
-        border-color: rgba(237, 242, 247, var(--tw-border-opacity));
-    }
-
-    .text-gray-400 {
-        color: #cbd5e0;
-        color: rgba(203, 213, 224, var(--tw-text-opacity));
-    }
-
-    .text-gray-500 {
-        color: #a0aec0;
-        color: rgba(160, 174, 192, var(--tw-text-opacity));
-    }
-
-    .text-gray-600 {
-        color: #718096;
-        color: rgba(113, 128, 150, var(--tw-text-opacity));
-    }
-
-    .text-gray-700 {
-        color: #4a5568;
-        color: rgba(74, 85, 104, var(--tw-text-opacity));
-    }
-
-    .text-gray-900 {
-        color: #1a202c;
-        color: rgba(26, 32, 44, var(--tw-text-opacity));
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .dark\:bg-gray-800 {
-            background-color: #2d3748;
-            background-color: rgba(45, 55, 72, var(--tw-bg-opacity));
-        }
-
-        .dark\:bg-gray-900 {
-            background-color: #1a202c;
-            background-color: rgba(26, 32, 44, var(--tw-bg-opacity));
-        }
-
-        .dark\:border-gray-700 {
-            border-color: #4a5568;
-            border-color: rgba(74, 85, 104, var(--tw-border-opacity));
-        }
-
-        .dark\:text-white {
-            color: #fff;
-            color: rgba(255, 255, 255, var(--tw-text-opacity));
-        }
-
-        .dark\:text-gray-400 {
-            color: #cbd5e0;
-            color: rgba(203, 213, 224, var(--tw-text-opacity));
-        }
-    }
-</style>
-
 <script>
-    export default {
-        props: {
-            canLogin: Boolean,
-            canRegister: Boolean,
-            laravelVersion: String,
-            phpVersion: String,
-        }
-    }
+export default {
+    data() {
+        return {
+            date: new Date().getFullYear(),
+        };
+    },
+};
 </script>
+
+<style></style>
